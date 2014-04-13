@@ -23,7 +23,8 @@ weatherApp.factory('forecastFactory', function($http){
 				dailyForecasts:	[]
 	}
 	var factory = {};
-	factory.getForecasts = function() {
+	factory.getForecasts = function(cityName) {
+		ForecastResult.city = cityName || 'enter a city name';
 		ForecastResult.dailyForecasts = [{"code":"29","date":"11 Apr 2014","day":"Fri","high":"64","low":"42","text":"Partly Cloudy"},{"code":"30","date":"12 Apr 2014","day":"Sat","high":"64","low":"41","text":"Partly Cloudy"},{"code":"32","date":"13 Apr 2014","day":"Sun","high":"69","low":"42","text":"Sunny"},{"code":"30","date":"14 Apr 2014","day":"Mon","high":"72","low":"44","text":"Partly Cloudy"},{"code":"11","date":"15 Apr 2014","day":"Tue","high":"59","low":"43","text":"Few Showers"}];
 		return ForecastResult;
 	}
@@ -33,7 +34,7 @@ weatherApp.factory('forecastFactory', function($http){
 
 weatherApp.controller('ForecastController', function ($scope, forecastFactory){
 	$scope.getForecasts = function(){
-	  $scope.forecast = forecastFactory.getForecasts();
+	  $scope.forecast = forecastFactory.getForecasts($scope.query.cityName);
 	}
 	
 })
