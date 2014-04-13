@@ -52,12 +52,12 @@
 	    </tr>
 	    </thead>
 	    <tbody>
-	      <tr ng-repeat="forecast in forecasts">
-	        <td>{{ forecast.date }}</td>
-	        <td>{{ forecast.day }}</td>
-	        <td>{{ forecast.high }}</td>
-	        <td>{{ forecast.low }}</td>
-	        <td>{{ forecast.text }}</td>
+	      <tr ng-repeat="dailyForecast in forecast.dailyForecasts">
+	        <td>{{ dailyForecast.date }}</td>
+	        <td>{{ dailyForecast.day }}</td>
+	        <td>{{ dailyForecast.high }}</td>
+	        <td>{{ dailyForecast.low }}</td>
+	        <td>{{ dailyForecast.text }}</td>
 	      </tr>
 	    </tbody>
 	  </table>
