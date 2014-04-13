@@ -5,9 +5,21 @@
  * - send contents of query.results.weather.rss.channel.item.forecast to scope
  * - make request to Yahoo weather
  * - monitor errors
+ * 
+ * 
+ * 
  */
 
 var weatherApp = angular.module('weatherApp', []);
+
+/**
+ * factory: should query Yahoo weather, if request is successful 
+ * check for errors in the response, 
+ * then if no errors find the city and forecast and return to requesting entity
+ */
+weatherApp.factory('forecastFactory', ['$http', function($http){
+	
+}])
 
 weatherApp.controller('ForecastController', function ($scope){
 	$scope.getForecasts = function(){

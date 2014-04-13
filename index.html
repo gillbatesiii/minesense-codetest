@@ -28,7 +28,11 @@
 	       <form role="form">
 	        <div class="form-group">
 	          <label for="cityName">City Name</label>
-	          <input type="text" class="form-control" id="cityName" placeholder="Enter city name e.g. Vancouver">
+	          <input   type="text" 
+	                   class="form-control" 
+	                   id="cityName" 
+	                   placeholder="Enter city name e.g. Vancouver" 
+	                   data-ng-model="query.cityName">
 	         </div>
 	         <button type="button" class="btn btn-primary" data-ng-click="getForecasts()">Submit</button>
 	          
