@@ -30,9 +30,15 @@ weatherApp.factory('forecastFactory', function($http){
 		$http.get('https://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20weather.bylocation%20WHERE%20location%3D%22' + cityName + '%22&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=')
 		.success(function(data, status, headers, config){			
 			ForecastResult.dailyForecasts = data.query.results.weather.rss.channel.item.forecast || [];
-			ForecastResult.city = data.query.results.weather.rss.channel.location.city || 'city name not returned';
-			ForecastResult.region = data.query.results.weather.rss.channel.location.region || ''
-			ForecastResult.country = data.query.results.weather.rss.channel.location.country || '';
+			if (!data.query.results.weather.rss.channel.location){
+				ForecastResult.city = 'location not found by Yahoo API';
+				ForecastResult.region = ''
+				ForecastResult.country = '';
+			}else{
+				ForecastResult.city = data.query.results.weather.rss.channel.location.city || 'city name not returned';
+				ForecastResult.region = data.query.results.weather.rss.channel.location.region || ''
+				ForecastResult.country = data.query.results.weather.rss.channel.location.country || '';
+			}
 		})
 		.error(function(data, status, headers, config){
 			//handle the error
