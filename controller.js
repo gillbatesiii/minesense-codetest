@@ -12,27 +12,7 @@
 
 var weatherApp = angular.module('weatherApp', []);
 
-/**
- * Description:
- *     removes white space from text. useful for html values that cannot have spaces
- */
-weatherApp.directive('removeSpaces', function() {
-	   return {
-	     require: 'ngModel',
-	     link: function(scope, element, attrs, modelCtrl) {
-	        var removespace = function(inputValue) {
-	           var removedspace = (!inputValue) ? '' : inputValue.replace(/\s+/g, ''); // actual code that replaces spaces with ''
-	           if(removedspace !== inputValue) {
-	              modelCtrl.$setViewValue(removedspace);
-	              modelCtrl.$render();
-	            }         
-	            return removedspace;
-	         }
-	         modelCtrl.$parsers.push(removespace);
-	        // removespace(scope[attrs.ngModel]);  // remove initial value's space
-	     }
-	   };
-	});
+
 
 /**
  * forecastFactory: queries Yahoo weather passing cityName parameter 
