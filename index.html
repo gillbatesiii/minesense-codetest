@@ -21,7 +21,12 @@
     
     <div class="container" data-ng-controller="ForecastController">
       <div class="page-header">
-        <h1>5 day forecast <span ng-show="forecast.city"> - </span>{{ forecast.city }}</h1>
+        <h1>5 day forecast 
+            <span ng-show="forecast.city"> - </span>
+            {{ forecast.city }}<span ng-show="forecast.region">, </span>
+            {{ forecast.region }}<span ng-show="forecast.country">, </span>
+            {{ forecast.country }}
+        </h1>
       </div>
       <div class="row">
        <div class="col-sm-4">
@@ -32,7 +37,9 @@
 	                   class="form-control" 
 	                   id="cityName" 
 	                   placeholder="Enter city name e.g. Vancouver" 
-	                   data-ng-model="query.cityName" required>
+	                   data-ng-model="query.cityName"
+	                   
+	                   required>
 	         </div>
 	         <button type="submit" class="btn btn-primary">Submit</button>
 	          
