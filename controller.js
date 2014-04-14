@@ -2,7 +2,7 @@
  * Controller.js for minesense-codetest app
  * 
  * TODO:
- * - send contents of query.results.weather.rss.channel.item.forecast to scope - done
+ * - send contents of query.results.weather.rss.channel.item.forecast to $scope - done
  * - make request to Yahoo weather - done
  * - monitor errors 
  * 
@@ -13,7 +13,29 @@
 var weatherApp = angular.module('weatherApp', []);
 
 /**
- * factory: queries Yahoo weather passing cityName parameter 
+ * Description:
+ *     removes white space from text. useful for html values that cannot have spaces
+ */
+weatherApp.directive('removeSpaces', function() {
+	   return {
+	     require: 'ngModel',
+	     link: function(scope, element, attrs, modelCtrl) {
+	        var removespace = function(inputValue) {
+	           var removedspace = (!inputValue) ? '' : inputValue.replace(/\s+/g, ''); // actual code that replaces spaces with ''
+	           if(removedspace !== inputValue) {
+	              modelCtrl.$setViewValue(removedspace);
+	              modelCtrl.$render();
+	            }         
+	            return removedspace;
+	         }
+	         modelCtrl.$parsers.push(removespace);
+	        // removespace(scope[attrs.ngModel]);  // remove initial value's space
+	     }
+	   };
+	});
+
+/**
+ * forecastFactory: queries Yahoo weather passing cityName parameter 
  * on success, find the city and forecast and return to requesting entity
  */
 weatherApp.factory('forecastFactory', function($http){
@@ -23,12 +45,14 @@ weatherApp.factory('forecastFactory', function($http){
 	}
 	var factory = {};
 	factory.getForecasts = function(cityName) {
-		cityName = cityName || 'Vancouver'; // defaults cityName to Vancouver if it's empty
-		
+		//cityName = cityName || 'Vancouver'; // defaults cityName to Vancouver if it's empty
+		cityName = (!cityName) ? '' : cityName.replace(/\s+/g, ''); // removes spaces because yahoo apis doesn't like them
 		$http.get('https://query.yahooapis.com/v1/public/yql?q=SELECT%20*%20FROM%20weather.bylocation%20WHERE%20location%3D%22' + cityName + '%22&format=json&diagnostics=true&env=http%3A%2F%2Fdatatables.org%2Falltables.env&callback=')
 		.success(function(data, status, headers, config){			
 			ForecastResult.dailyForecasts = data.query.results.weather.rss.channel.item.forecast || [];
 			ForecastResult.city = data.query.results.weather.rss.channel.location.city || 'city name not returned';
+			ForecastResult.region = data.query.results.weather.rss.channel.location.region || ''
+			ForecastResult.country = data.query.results.weather.rss.channel.location.country || '';
 		})
 		.error(function(data, status, headers, config){
 			//handle the error
@@ -48,6 +72,7 @@ weatherApp.factory('forecastFactory', function($http){
 
 weatherApp.controller('ForecastController', function ($scope, forecastFactory){
 	$scope.getForecasts = function(){
+	  
 	  $scope.forecast = forecastFactory.getForecasts($scope.query.cityName);
 	}
 	
